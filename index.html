@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selaras Yoga — Return. Breathe. Realign.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Parisienne&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F4EFEA;
+      --text: #1F1F1F;
+      --accent: #C2A878;
+      --accent-light: #E8DDD0;
+      --muted: #7a7065;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ── NAVBAR ── */
+   nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+
+  background: rgba(244, 239, 234, 0.6);
+  backdrop-filter: blur(10px);
+
+  transition: all 0.4s ease;
+}
+    nav.scrolled {
+      background: rgba(244, 239, 234, 0.92);
+      backdrop-filter: blur(12px);
+      padding: 1rem 3rem;
+      border-bottom: 1px solid rgba(194,168,120,0.15);
+    }
+   .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+} 
+    .nav-links a {
+  font-family: 'Fraunces', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #820000;
+  text-decoration: none;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+    .nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+  color: #D4AF37;
+}
+
+
+    /* ── HAMBURGER ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  z-index: 200;
+}
+
+.nav-toggle span {
+  width: 22px;
+  height: 2px;
+  background: #820000;
+  display: block;
+}
+@media (max-width: 900px) {
+
+  nav {
+    justify-content: space-between;
+  }
+
+  .nav-toggle {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(244, 239, 234, 0.98);
+    padding: 2rem;
+    text-align: center;
+    z-index: 150;
+  }
+
+}
+    /* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://res.cloudinary.com/ddcemiotz/image/upload/v1777688245/1-hero2_a01tnh.png');
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+.hero-bg.loaded { transform: scale(1); }
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.25) 0%,
+    rgba(0,0,0,0.15) 40%,
+    rgba(0,0,0,0.45) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 56rem;
+  padding: 0 2rem;
+  opacity: 0;
+}
+
+.hero-tagline-script {
+  font-family: 'Parisienne', cursive;
+  font-size: 1.6rem;
+  color: #D4AF37;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  display: block;
+  letter-spacing: 0.02em;
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: #D4AF37;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  text-shadow: 0 2px 12px rgba(110,59,59,0.25);
+}
+
+.hero-hook {
+  font-family: 'Fraunces', cursive;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.hero-cta {
+  position: relative;
+  display: inline-block;
+  font-family: 'Fraunces', serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #fff;
+  padding: 1.1rem 3rem;
+  text-decoration: none;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: transparent;
+  transition: color 0.4s ease, border 0.4s ease;
+}
+
+.hero-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #6B1F2A, #C2A878);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.hero-cta:hover::before {
+  opacity: 1;
+}
+
+.hero-cta:hover {
+  color: #fff;
+  border-color: transparent;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+}
+
+.hero-scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.6);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.5); opacity: 0.4; }
+}
+
+/* ── SECTION DEFAULTS ── */
+section { padding: 8rem 3rem; }
+
+.section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.container { max-width: 72rem; margin: 0 auto; }
+
+    /* ── ABOUT ── */
+    .about { background: var(--bg); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .about-image:hover img { transform: scale(1.03); }
+    .about-text { padding: 2rem 0; }
+    .about-text h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+    .about-text h2 em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .about-text p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 2;
+      margin-bottom: 2.5rem;
+    }
+    .about-line {
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    /* ── CLASSES ── */
+    .classes { background: #EDE8E2; }
+    .classes-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .classes-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+    }
+    .classes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .class-card {
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .class-card-image {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .class-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .class-card:hover .class-card-image img { transform: scale(1.05); }
+    .class-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .class-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .class-number {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    /* ── MOVEMENT ── */
+    .movement { background: var(--text); color: var(--bg); padding: 8rem 3rem; }
+    .movement-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+    .movement-text .section-label { color: var(--accent); }
+    .movement-text h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--bg);
+    }
+    .movement-text h2 em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .movement-text p {
+      font-size: 0.95rem;
+      color: rgba(244,239,234,0.6);
+      line-height: 2;
+    }
+    .video-carousel {
+      position: relative;
+      aspect-ratio: 9/16;
+      overflow: hidden;
+      max-height: 560px;
+    }
+    .video-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .video-slide.active { opacity: 1; }
+    .video-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-dots {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+    .video-dot {
+      width: 20px;
+      height: 1px;
+      background: rgba(244,239,234,0.3);
+      transition: background 0.3s, width 0.3s;
+      cursor: pointer;
+    }
+    .video-dot.active {
+      background: var(--accent);
+      width: 36px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience {
+      position: relative;
+      padding: 0;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .experience-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .experience-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .experience-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(31,31,31,0.42);
+    }
+    .experience-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--bg);
+      padding: 6rem 2rem;
+    }
+    .experience-content h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .experience-content p {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-top: 1.5rem;
+    }
+
+    /* ── SANCTUARY ── */
+    .sanctuary { background: var(--bg); }
+    .sanctuary-header {
+      margin-bottom: 4rem;
+    }
+    .sanctuary-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+    }
+    .sanctuary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .sanctuary-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .sanctuary-grid div {
+      overflow: hidden;
+    }
+    .sanctuary-grid div:hover img { transform: scale(1.03); }
+    .sanctuary-grid div:first-child {
+      aspect-ratio: auto;
+    }
+    .sanctuary-grid div:first-child img {
+      aspect-ratio: 4/3;
+    }
+
+    /* ── LOCATION ── */
+    .location { background: #EDE8E2; }
+    .location-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .location-info h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 3vw, 2.5rem);
+      font-weight: 400;
+      margin-bottom: 2.5rem;
+    }
+    .location-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .location-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .location-item .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .location-item .value {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .location-map {
+      height: 380px;
+      overflow: hidden;
+    }
+    .location-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: sepia(20%) contrast(0.95);
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      background: var(--text);
+      text-align: center;
+      padding: 10rem 3rem;
+    }
+    .final-cta .section-label { color: var(--accent); }
+    .final-cta h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--bg);
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+    .final-cta-btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: var(--bg);
+      padding: 1.2rem 3.5rem;
+      text-decoration: none;
+      transition: background 0.4s, color 0.4s;
+    }
+    .final-cta-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      border-top: 1px solid rgba(194,168,120,0.15);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo img {
+      height: 40px;
+      filter: brightness(10);
+      opacity: 0.7;
+    }
+    .footer-text {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: rgba(244,239,234,0.35);
+    }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(244,239,234,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 200;
+    }
+    .wa-float a {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      padding: 0.8rem 1.4rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: background 0.3s;
+      box-shadow: 0 8px 32px rgba(31,31,31,0.2);
+    }
+    .wa-float a:hover { background: var(--accent); }
+    .wa-float svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ── FADE IN UTILITY ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      margin: 0 auto 3rem;
+    }
+
+   @media (max-width: 900px) {
+  nav {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  section {
+    padding: 5rem 1.5rem;
+  }
+
+  .about-inner,
+  .classes-grid,
+  .movement-inner,
+  .sanctuary-grid,
+  .location-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .location-map {
+    height: 280px;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+    /* ── FLOATING BOOKING FORM ── */
+    .floating-form {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 1rem;
+    }
+
+    .floating-form.show {
+      display: flex;
+    }
+
+    .form-box {
+      background: #F4EFEA;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 380px;
+      position: relative;
+    }
+
+    .form-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .form-box .form-subtitle {
+      font-family: 'Parisienne', cursive;
+      font-size: 1rem;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1.8rem;
+    }
+
+    .form-box label {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-box input,
+    .form-box select {
+      width: 100%;
+      margin-bottom: 1.1rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid rgba(194,168,120,0.3);
+      background: rgba(255,255,255,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s;
+      appearance: none;
+    }
+
+    .form-box input:focus,
+    .form-box select:focus {
+      border-color: var(--accent);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .form-box .btn-submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.9rem;
+      background: #6E3B3B;
+      color: #fff;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .form-box .btn-submit:hover {
+      background: var(--accent);
+    }
+
+    .form-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .form-close:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo"><img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777691784/Logo_i6ks5i.png" alt="Logo"></a>
+
+  <!-- HAMBURGER -->
+  <div class="nav-toggle" id="navToggle">
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#movement">Movement</a></li>
+    <li><a href="#location">Visit Us</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
+
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content" id="heroContent">
+    <span class="hero-tagline-script">Return. Breathe. Realign.</span>
+    <h1>Kembali <em>selaras</em><br>dengan dirimu</h1>
+    <p class="hero-hook">
+      Di tengah lelah yang tak selalu terlihat,<br>
+      ada ruang untuk pulang dan bernapas kembali.
+    </p>
+    <a href="https://wa.me/628979797669?text=Halo%20Selaras%20Yoga%2C%20saya%20ingin%20booking%20kelas.%0A%0ANama%3A%0AAlamat%3A%0AKelas%3A%0ATanggal%3A%0AJam%3A" class="hero-cta" target="_blank">Mulai Perjalananmu</a>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-image fade-up">
+        <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777688970/2-about_w1wfr9.png" alt="Selaras Yoga — About" loading="lazy" />
+      </div>
+      <div class="about-text fade-up">
+        <span class="section-label">Our Story</span>
+        <div class="about-line"></div>
+        <h2>Sebuah ruang<br>untuk <em>memperlambat.</em></h2>
+        <p>
+          Selaras Yoga adalah ruang untuk memperlambat,
+          mendengarkan tubuh, dan kembali ke ritme alami.
+          Di sini, setiap sesi adalah undangan untuk kembali hadir — sepenuhnya.
+        </p>
+        <p>
+          Kami percaya bahwa keselarasan bukan hanya tentang postur tubuh,
+          melainkan tentang menemukan kedamaian dalam setiap napas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section class="classes" id="classes">
+  <div class="container">
+    <div class="classes-header fade-up">
+      <span class="section-label">Our Classes</span>
+      <h2>Temukan kelasmu</h2>
+    </div>
+    <div class="classes-grid">
+      <div class="class-card fade-up">
+        <div class="class-card-image">
+          <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689080/Class-01_q6qmg6.png" alt="Vinyasa Flow" loading="lazy" />
+        </div>
+        <span class="class-number">01</span>
+        <h3>Vinyasa Flow</h3>
+        <p>Gerakan yang mengalir bersama napas — dinamis, meditatif, membebaskan.</p>
+      </div>
+      <div class="class-card fade-up">
+        <div class="class-card-image">
+          <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689083/Class-02_w8w6nr.png" alt="Meditation" loading="lazy" />
+        </div>
+        <span class="class-number">02</span>
+        <h3>Meditation</h3>
+        <p>Hening yang membawa kejelasan. Ruang untuk mendengarkan diri sendiri.</p>
+      </div>
+      <div class="class-card fade-up">
+        <div class="class-card-image">
+          <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689084/Class-03_xrlsvj.png" alt="Balance Practice" loading="lazy" />
+        </div>
+        <span class="class-number">03</span>
+        <h3>Balance Practice</h3>
+        <p>Keseimbangan tubuh dan pikiran. Fondasi kuat untuk hidup yang lebih ringan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOVEMENT -->
+<section class="movement" id="movement">
+  <div class="movement-inner">
+    <div class="movement-text fade-up">
+      <span class="section-label">Movement</span>
+      <h2>Move with<br><em>awareness.</em></h2>
+      <p>
+        Setiap gerakan adalah perjalanan<br>
+        kembali ke tubuhmu.
+      </p>
+    </div>
+    <div>
+      <div class="video-carousel" id="videoCarousel">
+        <div class="video-slide active">
+          <video autoplay muted loop playsinline>
+            <source src="https://res.cloudinary.com/ddcemiotz/video/upload/v1777689346/4.movement3_jxonps.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-slide">
+          <video muted loop playsinline>
+            <source src="https://res.cloudinary.com/ddcemiotz/video/upload/v1777689353/4.movement2_zybinh.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-slide">
+          <video muted loop playsinline>
+            <source src="https://res.cloudinary.com/ddcemiotz/video/upload/v1777689347/4.movement4_lfypb2.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+      <div class="video-dots" id="videoDots">
+        <div class="video-dot active" onclick="goToSlide(0)"></div>
+        <div class="video-dot" onclick="goToSlide(1)"></div>
+        <div class="video-dot" onclick="goToSlide(2)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="experience-bg">
+    <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689815/5-experience1_nlheux.png" alt="Experience" loading="lazy" />
+  </div>
+  <div class="experience-overlay"></div>
+  <div class="experience-content fade-up">
+    <h2>A space to return.<br>A moment to breathe.</h2>
+    <p>Selaras Yoga — Bogor</p>
+  </div>
+</section>
+
+<!-- SANCTUARY -->
+<section class="sanctuary" id="sanctuary">
+  <div class="container">
+    <div class="sanctuary-header fade-up">
+      <span class="section-label">Your Sanctuary</span>
+      <h2>Ruang yang<br>menunggumu</h2>
+    </div>
+    <div class="sanctuary-grid fade-up">
+      <div>
+        <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689993/6-ourspace1_sqpdsk.png" alt="Our Space 1" loading="lazy" />
+      </div>
+      <div>
+        <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777689994/6-ourspace2_rab1f7.png" alt="Our Space 2" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="location">
+  <div class="container">
+    <div class="location-inner">
+      <div class="location-info fade-up">
+        <span class="section-label">Find Us</span>
+        <h2>Visit Us</h2>
+        <div class="location-detail">
+          <div class="location-item">
+            <span class="label">Address</span>
+            <span class="value">Jl Taman Anyelir no 34, Blok A4<br>Padurenan, Gn Sindur, Kab. Bogor<br>16340</span>
+          </div>
+          <div class="location-item">
+            <span class="label">WhatsApp</span>
+            <span class="value">
+              <a href="https://wa.me/628979797669" style="color:var(--accent);text-decoration:none;">08979797669</a>
+            </span>
+          </div>
+          <div class="location-item">
+            <span class="label">Hours</span>
+            <span class="value">Senin – Sabtu, 06:00 – 20:00<br>Minggu, 07:00 – 17:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="location-map fade-up">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.0!2d106.7!3d-6.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zJmx0O3Vua25vd24mZ3Q7!5e0!3m2!1sen!2sid!4v1!5m2!1sen!2sid&q=Jl+Taman+Anyelir+no+34,+Blok+A4,+Padurenan,+Gunung+Sindur,+Kabupaten+Bogor"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Selaras Yoga Location">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="final-cta">
+  <div class="fade-up">
+    <span class="section-label">Begin Today</span>
+    <h2>Mulai perjalananmu<br><em>hari ini.</em></h2>
+    <a href="https://wa.me/628979797669?text=Halo%20Selaras%20Yoga%2C%20saya%20ingin%20booking%20kelas.%0A%0ANama%3A%0AAlamat%3A%0AKelas%3A%0ATanggal%3A%0AJam%3A" class="final-cta-btn" target="_blank">Book Your First Session</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777691784/Logo_i6ks5i.png" alt="Selaras Yoga Logo" />
+  </div>
+  <span class="footer-text">SelarasYoga.com — 2021</span>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#classes">Classes</a>
+    <a href="#location">Visit</a>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float">
+  <a href="https://wa.me/628979797669?text=Halo%20Selaras%20Yoga%2C%20saya%20ingin%20booking%20kelas.%0A%0ANama%3A%0AAlamat%3A%0AKelas%3A%0ATanggal%3A%0AJam%3A" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Book Yoga
+  </a>
+</div>
+
+<!-- FLOATING BOOKING FORM (di luar semua script, sebelum </body>) -->
+<div id="bookForm" class="floating-form">
+  <div class="form-box">
+    <button class="form-close" id="closeForm">&#215;</button>
+    <h3>Book Your Class</h3>
+    <span class="form-subtitle">Return. Breathe. Realign.</span>
+
+    <label>Nama Lengkap</label>
+    <input type="text" id="f-nama" placeholder="Nama kamu" />
+
+    <label>Alamat</label>
+    <input type="text" id="f-alamat" placeholder="Alamat kamu" />
+
+    <label>Kelas</label>
+    <select id="f-kelas">
+      <option value="">Pilih kelas...</option>
+      <option>Vinyasa Flow</option>
+      <option>Meditation</option>
+      <option>Balance Practice</option>
+    </select>
+
+    <div class="form-row">
+      <div>
+        <label>Tanggal</label>
+        <input type="date" id="f-tanggal" />
+      </div>
+      <div>
+        <label>Jam</label>
+        <input type="time" id="f-jam" />
+      </div>
+    </div>
+
+    <button class="btn-submit" id="submitForm">Kirim via WhatsApp</button>
+  </div>
+</div>
+
+<!-- ALL JAVASCRIPT -->
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── NAVBAR SCROLL ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ── HERO BG LOADED ── */
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('load', () => {
+    if (heroBg) heroBg.classList.add('loaded');
+  });
+
+  /* ── GSAP: HERO ── */
+  gsap.to('#heroContent', {
+    opacity: 1,
+    duration: 1.6,
+    ease: 'power2.out',
+    delay: 0.3
+  });
+
+  /* ── GSAP: SCROLL REVEALS ── */
+  gsap.utils.toArray('.fade-up').forEach((el) => {
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 1.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        once: true
+      }
+    });
+  });
+
+  /* ── VIDEO CAROUSEL ── */
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.video-slide');
+  const dots = document.querySelectorAll('.video-dot');
+  let carouselInterval;
+
+  function goToSlide(index) {
+    if (!slides.length) return;
+    slides[currentSlide]?.classList.remove('active');
+    dots[currentSlide]?.classList.remove('active');
+    slides[currentSlide]?.querySelector('video')?.pause();
+    currentSlide = index;
+    slides[currentSlide]?.classList.add('active');
+    dots[currentSlide]?.classList.add('active');
+    const vid = slides[currentSlide]?.querySelector('video');
+    if (vid) { vid.currentTime = 0; vid.play(); }
+  }
+
+  function nextSlide() {
+    if (slides.length) goToSlide((currentSlide + 1) % slides.length);
+  }
+
+  if (slides.length) {
+    carouselInterval = setInterval(nextSlide, 6000);
+  }
+
+  /* ── NAV TOGGLE (MOBILE) ── */
+  const toggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (toggle && navLinks) {
+    toggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+  }
+
+  /* ── FLOATING BOOKING FORM ── */
+  const bookForm  = document.getElementById('bookForm');
+  const closeBtn  = document.getElementById('closeForm');
+  const submitBtn = document.getElementById('submitForm');
+  let formShown   = false;
+
+  function showForm() {
+    if (!formShown && bookForm) {
+      bookForm.classList.add('show');
+      formShown = true;
+    }
+  }
+
+  function hideForm() {
+    if (bookForm) bookForm.classList.remove('show');
+  }
+
+
+
+  /* Tombol close */
+  if (closeBtn) closeBtn.addEventListener('click', hideForm);
+
+  /* Klik di luar form box */
+  if (bookForm) {
+    bookForm.addEventListener('click', (e) => {
+      if (e.target === bookForm) hideForm();
+    });
+  }
+
+  /* Submit → kirim ke WhatsApp */
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      const nama    = document.getElementById('f-nama')?.value.trim() || '';
+      const alamat  = document.getElementById('f-alamat')?.value.trim() || '';
+      const kelas   = document.getElementById('f-kelas')?.value || '';
+      const tanggal = document.getElementById('f-tanggal')?.value || '';
+      const jam     = document.getElementById('f-jam')?.value || '';
+
+      const msg = `Halo Selaras Yoga, saya ingin booking kelas.\n\nNama: ${nama}\nAlamat: ${alamat}\nKelas: ${kelas}\nTanggal: ${tanggal}\nJam: ${jam}`;
+      window.open(`https://wa.me/628979797669?text=${encodeURIComponent(msg)}`, '_blank');
+      hideForm();
+    });
+  }
+
+  /* Auto popup setelah section #classes selesai di-scroll */
+  const classesSection = document.querySelector('#classes');
+  if (classesSection && bookForm) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          // User sudah melewati section classes (scroll ke bawah)
+          setTimeout(showForm, 800);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0 });
+    observer.observe(classesSection);
+  }
+</script>
+
+</body>
+</html>
