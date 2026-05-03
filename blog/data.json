@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "title": "Yoga untuk Mengatasi Stress: Cara Kembali Tenang dalam 15 Menit",
+    "slug": "yoga-untuk-stress",
+    "image": "images/yoga-stress.jpg",
+    "excerpt": "Temukan cara sederhana mengatasi stress dengan yoga dalam 15 menit. Latihan ringan untuk menenangkan pikiran dan tubuh."
+  },
+  {
+    "title": "Yoga Balance: Latihan Menemukan Keseimbangan Tubuh dan Pikiran",
+    "slug": "yoga-balance",
+    "image": "images/yoga-balance.jpg",
+    "excerpt": "Latihan yoga balance untuk meningkatkan fokus, stabilitas, dan ketenangan dalam kehidupan sehari-hari."
+  },
+  {
+    "title": "Yoga Meditasi: Cara Menenangkan Pikiran di Tengah Kesibukan",
+    "slug": "yoga-meditasi",
+    "image": "images/yoga-meditasi.jpg",
+    "excerpt": "Panduan yoga meditasi untuk membantu kamu lebih tenang, fokus, dan mindful di tengah aktivitas harian."
+  }
+]
