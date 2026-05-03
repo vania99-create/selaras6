@@ -1291,31 +1291,55 @@ section { padding: 8rem 3rem; }
 
 <!-- BLOG AUTO LOAD -->
 <script>
-fetch('blog/data.json')
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById('home-blog-list');
-    if (!container) return;
+document.addEventListener("DOMContentLoaded", () => {
+  fetch('blog/data.json')
+    .then(res => {
+      if (!res.ok) throw new Error("Gagal load data.json");
+      return res.json();
+    })
+    .then(data => {
+      const container = document.getElementById('home-blog-list');
+      if (!container) return;
 
-    const latest = data.slice(-3).reverse();
+      container.innerHTML = ""; // clear dulu biar aman
 
-    latest.forEach(article => {
-      const card = `
-        <div class="class-card fade-up">
-          <div class="class-card-image">
-            <img src="blog/${article.image}" alt="${article.title}">
+      const latest = data.slice(-3).reverse();
+
+      latest.forEach((article, index) => {
+        const card = `
+          <div class="class-card fade-up">
+            <div class="class-card-image">
+              <img src="blog/${article.image}" alt="${article.title}" loading="lazy">
+            </div>
+
+            <span class="class-number">0${index + 1}</span>
+
+            <h3>${article.title}</h3>
+            <p>${article.excerpt}</p>
+
+            <a href="blog/${article.slug}.html"
+               style="font-size:0.8rem;color:#C2A878;text-decoration:none;">
+               Read More
+            </a>
           </div>
-          <span class="class-number">0${Math.floor(Math.random()*9)+1}</span>
-          <h3>${article.title}</h3>
-          <p>${article.excerpt}</p>
-          <a href="blog/${article.slug}.html" style="font-size:0.8rem;color:#C2A878;text-decoration:none;">Read More</a>
-        </div>
-      `;
-      container.innerHTML += card;
-    });
-  })
-  .catch(err => console.log('Blog error:', err));
-</script>
+        `;
 
-</body>
+        container.insertAdjacentHTML('beforeend', card);
+      });
+
+    })
+    .catch(err => {
+      console.log('Blog error:', err);
+
+      const container = document.getElementById('home-blog-list');
+      if (container) {
+        container.innerHTML = `
+          <p style="color:#7a7065; font-size:0.9rem;">
+            Blog sedang tidak bisa dimuat.
+          </p>
+        `;
+      }
+    });
+});
+</script></body>
 </html>
