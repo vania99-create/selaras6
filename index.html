@@ -1029,6 +1029,22 @@ section { padding: 8rem 3rem; }
   </div>
 </section>
 
+  <!-- BLOG PREVIEW -->
+<section class="blog" id="blog">
+  <div class="container">
+    <div class="classes-header fade-up">
+      <span class="section-label">Journal</span>
+      <h2>Reflections & Insights</h2>
+    </div>
+
+    <div class="classes-grid" id="home-blog-list"></div>
+
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="blog/" class="final-cta-btn">Read All Articles</a>
+    </div>
+  </div>
+</section>
+  
 <!-- LOCATION -->
 <section class="location" id="location">
   <div class="container">
@@ -1222,8 +1238,6 @@ section { padding: 8rem 3rem; }
     if (bookForm) bookForm.classList.remove('show');
   }
 
-
-
   /* Tombol close */
   if (closeBtn) closeBtn.addEventListener('click', hideForm);
 
@@ -1255,7 +1269,6 @@ section { padding: 8rem 3rem; }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-          // User sudah melewati section classes (scroll ke bawah)
           setTimeout(showForm, 800);
           observer.disconnect();
         }
@@ -1263,6 +1276,34 @@ section { padding: 8rem 3rem; }
     }, { threshold: 0 });
     observer.observe(classesSection);
   }
+</script>
+
+<!-- BLOG AUTO LOAD -->
+<script>
+fetch('blog/data.json')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('home-blog-list');
+    if (!container) return;
+
+    const latest = data.slice(-3).reverse();
+
+    latest.forEach(article => {
+      const card = `
+        <div class="class-card fade-up">
+          <div class="class-card-image">
+            <img src="blog/${article.image}" alt="${article.title}">
+          </div>
+          <span class="class-number">0${Math.floor(Math.random()*9)+1}</span>
+          <h3>${article.title}</h3>
+          <p>${article.excerpt}</p>
+          <a href="blog/${article.slug}.html" style="font-size:0.8rem;color:#C2A878;text-decoration:none;">Read More</a>
+        </div>
+      `;
+      container.innerHTML += card;
+    });
+  })
+  .catch(err => console.log('Blog error:', err));
 </script>
 
 </body>
