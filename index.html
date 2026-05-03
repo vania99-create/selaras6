@@ -864,8 +864,6 @@ section { padding: 8rem 3rem; }
 
 #home-blog-list {
   margin-top: 3rem;
-   border: 1px solid red;
-  min-height: 200px;
 }
     
   </style>
@@ -1321,7 +1319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   articles.forEach((article, index) => {
     const card = `
-      <div class="class-card fade-up">
+      <div class="class-card blog-card-item">
         <div class="class-card-image">
           <img src="${article.image}" alt="${article.title}" loading="lazy">
         </div>
@@ -1329,12 +1327,31 @@ document.addEventListener("DOMContentLoaded", () => {
         <h3>${article.title}</h3>
         <p>${article.excerpt}</p>
         <a href="blog/${article.slug}.html"
-           style="font-size:0.8rem;color:#C2A878;text-decoration:none;">
+           style="font-size:0.8rem;color:#C2A878;text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;">
            Read More
         </a>
       </div>
     `;
     container.insertAdjacentHTML('beforeend', card);
+  });
+
+  // Animate cards — triggered after DOM insert, not at page load
+  const cards = container.querySelectorAll('.blog-card-item');
+  cards.forEach((card, i) => {
+    gsap.fromTo(card,
+      { opacity: 0, y: 32 },
+      {
+        opacity: 1, y: 0,
+        duration: 1.1,
+        ease: 'power2.out',
+        delay: i * 0.15,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          once: true
+        }
+      }
+    );
   });
 });
 </script></body>
