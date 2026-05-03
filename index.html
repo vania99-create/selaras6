@@ -69,6 +69,7 @@
   height: 40px;
   width: auto;
   display: block;
+  mix-blend-mode: multiply;
 } 
     .nav-links a {
   font-family: 'Fraunces', sans-serif;
@@ -874,7 +875,7 @@ section { padding: 8rem 3rem; }
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <a href="#" class="nav-logo"><img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777691784/Logo_i6ks5i.png" alt="Logo"></a>
+  <a href="#" class="nav-logo"><img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777756183/file_00000000d53472089bb5b35568b3357c_axgnzc.png" alt="Logo"></a>
 
   <!-- HAMBURGER -->
   <div class="nav-toggle" id="navToggle">
@@ -1104,7 +1105,7 @@ section { padding: 8rem 3rem; }
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">
-    <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777691784/Logo_i6ks5i.png" alt="Selaras Yoga Logo" />
+    <img src="https://res.cloudinary.com/ddcemiotz/image/upload/v1777756183/file_00000000d53472089bb5b35568b3357c_axgnzc.png" alt="Selaras Yoga Logo" />
   </div>
   <span class="footer-text">SelarasYoga.com — 2021</span>
   <div class="footer-links">
@@ -1289,57 +1290,52 @@ section { padding: 8rem 3rem; }
   }
 </script>
 
-<!-- BLOG AUTO LOAD -->
+<!-- BLOG HARDCODED PREVIEW -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  fetch('blog/data.json')
-    .then(res => {
-      if (!res.ok) throw new Error("Gagal load data.json");
-      return res.json();
-    })
-    .then(data => {
-      const container = document.getElementById('home-blog-list');
-      if (!container) return;
+  const articles = [
+    {
+      title: "Yoga untuk Mengatasi Stress: Cara Kembali Tenang dalam 15 Menit",
+      slug: "yoga-untuk-stress",
+      image: "blog/images/yoga-stress.jpg",
+      excerpt: "Temukan cara sederhana mengatasi stress dengan yoga dalam 15 menit. Latihan ringan untuk menenangkan pikiran dan tubuh."
+    },
+    {
+      title: "Yoga Balance: Latihan Menemukan Keseimbangan Tubuh dan Pikiran",
+      slug: "yoga-balance",
+      image: "blog/images/yoga-balance.jpg",
+      excerpt: "Latihan yoga balance untuk meningkatkan fokus, stabilitas, dan ketenangan dalam kehidupan sehari-hari."
+    },
+    {
+      title: "Yoga Meditasi: Cara Menenangkan Pikiran di Tengah Kesibukan",
+      slug: "yoga-meditasi",
+      image: "blog/images/yoga-meditasi.jpg",
+      excerpt: "Panduan yoga meditasi untuk membantu kamu lebih tenang, fokus, dan mindful di tengah aktivitas harian."
+    }
+  ];
 
-      container.innerHTML = ""; // clear dulu biar aman
+  const container = document.getElementById('home-blog-list');
+  if (!container) return;
 
-      const latest = data.slice(-3).reverse();
+  container.innerHTML = '';
 
-      latest.forEach((article, index) => {
-        const card = `
-          <div class="class-card fade-up">
-            <div class="class-card-image">
-              <img src="blog/${article.image}" alt="${article.title}" loading="lazy">
-            </div>
-
-            <span class="class-number">0${index + 1}</span>
-
-            <h3>${article.title}</h3>
-            <p>${article.excerpt}</p>
-
-            <a href="blog/${article.slug}.html"
-               style="font-size:0.8rem;color:#C2A878;text-decoration:none;">
-               Read More
-            </a>
-          </div>
-        `;
-
-        container.insertAdjacentHTML('beforeend', card);
-      });
-
-    })
-    .catch(err => {
-      console.log('Blog error:', err);
-
-      const container = document.getElementById('home-blog-list');
-      if (container) {
-        container.innerHTML = `
-          <p style="color:#7a7065; font-size:0.9rem;">
-            Blog sedang tidak bisa dimuat.
-          </p>
-        `;
-      }
-    });
+  articles.forEach((article, index) => {
+    const card = `
+      <div class="class-card fade-up">
+        <div class="class-card-image">
+          <img src="${article.image}" alt="${article.title}" loading="lazy">
+        </div>
+        <span class="class-number">0${index + 1}</span>
+        <h3>${article.title}</h3>
+        <p>${article.excerpt}</p>
+        <a href="blog/${article.slug}.html"
+           style="font-size:0.8rem;color:#C2A878;text-decoration:none;">
+           Read More
+        </a>
+      </div>
+    `;
+    container.insertAdjacentHTML('beforeend', card);
+  });
 });
 </script></body>
 </html>
