@@ -69,7 +69,7 @@
   height: 40px;
   width: auto;
   display: block;
-  mix-blend-mode: multiply;
+  filter: brightness(0) saturate(100%) invert(80%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(105%);
 } 
     .nav-links a {
   font-family: 'Fraunces', sans-serif;
@@ -627,6 +627,28 @@ section { padding: 8rem 3rem; }
       color: var(--bg);
     }
 
+    /* ── BLOG READ ALL BUTTON ── */
+    .blog-read-btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #6E3B3B;
+      padding: 1rem 3rem;
+      text-decoration: none;
+      border: 1px solid #6E3B3B;
+      transition: background 0.4s, color 0.4s, border-color 0.4s;
+    }
+
+    .blog-read-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--text);
@@ -638,8 +660,7 @@ section { padding: 8rem 3rem; }
     }
     .footer-logo img {
       height: 40px;
-      filter: brightness(10);
-      opacity: 0.7;
+      filter: brightness(0) saturate(100%) invert(80%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(105%);
     }
     .footer-text {
       font-size: 0.72rem;
@@ -1050,7 +1071,7 @@ section { padding: 8rem 3rem; }
     <div class="classes-grid" id="home-blog-list"></div>
 
     <div style="text-align:center; margin-top:3rem;">
-      <a href="blog/" class="final-cta-btn">Read All Articles</a>
+      <a href="blog/" class="blog-read-btn">Read All Articles</a>
     </div>
   </div>
 </section>
